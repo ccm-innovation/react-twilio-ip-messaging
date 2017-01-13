@@ -40,7 +40,8 @@ dependencies {
 
 ```
 
-Register the module in `MainActivity.java` by calling addPackage():
+Register the module in `MainApplication.java` by overriding getPackages():  
+
 ```Java
 // import package
 import com.bradbumbalough.RCTTwilioIPMessaging.RCTTwilioIPMessagingPackage;
@@ -51,9 +52,9 @@ import com.bradbumbalough.RCTTwilioIPMessaging.RCTTwilioIPMessagingPackage;
 @Override
 protected List<ReactPackage> getPackages() {
     return Arrays.<ReactPackage>asList(
-        ... other packages
-        new RCTTwilioIPMessagingPackage(),
-        new MainReactPackage()
+        new MainReactPackage(),
+        new RCTTwilioIPMessagingPackage()
+        // ... any other packages
     );
 }
 ```

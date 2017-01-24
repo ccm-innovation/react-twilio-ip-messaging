@@ -142,15 +142,20 @@ public class RCTTwilioChatChannels extends ReactContextBaseJavaModule {
         return RCTTwilioChatClient.getInstance().client.getChannels();
     }
 
+    private void createListener(Channel channel) {
+        String sid = channel.getSid();
+        if (!channelListeners.containsKey(sid)) {
+            ChannelListener listener = generateListener(channel);
+            channel.addListener(listener);
+            channelListeners.put(sid, listener);
+        }
+    }
+
     public void loadChannelFromSid(final String sid, final CallbackListener<Channel> callback) {
         channels().getChannel(sid, new CallbackListener<Channel>() {
             @Override
             public void onSuccess(final Channel channel) {
-                if (!channelListeners.containsKey(sid)) {
-                    ChannelListener listener = generateListener(channel);
-                    channel.addListener(listener);
-                    channelListeners.put(channel.getSid(), listener);
-                }
+                createListener(channel);
                 callback.onSuccess(channel);
             };
 
@@ -173,6 +178,9 @@ public class RCTTwilioChatChannels extends ReactContextBaseJavaModule {
 
             @Override
             public void onSuccess(final Paginator<Channel> channelPaginator) {
+                for (Channel channel: channelPaginator.getItems()) {
+                    createListener(channel);
+                }
                 String uuid = RCTTwilioChatPaginator.setPaginator(channelPaginator);
                 promise.resolve(RCTConvert.Paginator(channelPaginator, uuid, "Channel"));
             }

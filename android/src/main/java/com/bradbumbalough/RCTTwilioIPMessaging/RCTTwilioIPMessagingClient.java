@@ -23,6 +23,7 @@ import com.twilio.ipmessaging.UserInfo;
 
 import java.util.HashMap;
 import java.util.Map;
+import android.util.Log;
 
 import org.json.JSONObject;
 
@@ -77,7 +78,15 @@ public class RCTTwilioIPMessagingClient extends ReactContextBaseJavaModule imple
         channelOption.put("Type", "type");
         channelOption.put("Attributes", "attributes");
         constants.put("TWMChannelOption", channelOption);
-        
+
+        Map<String, Integer> logLevel = new HashMap<>();
+        logLevel.put("Fatal", Log.ERROR);
+        logLevel.put("Critical", Log.ERROR);
+        logLevel.put("Warning", Log.WARN);
+        logLevel.put("Info", Log.INFO);
+        logLevel.put("Debug", Log.DEBUG);
+        constants.put("TWMLogLevel", channelOption);
+
         return constants;
     }
 

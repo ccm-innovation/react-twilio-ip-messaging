@@ -33,7 +33,7 @@
 
 RCT_EXPORT_MODULE()
 
-RCT_REMAP_METHOD(createClient, properties:(NSDictionary *)properties resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject){
+RCT_EXPORT_METHOD(createClient:(NSDictionary *)properties resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject){
   TwilioAccessManager *accessManager = [[RCTTwilioAccessManager sharedManager] accessManager];
   // TODO add check to see if AccessManager has been initialized or not
   TwilioIPMessagingClientProperties *props = nil;
@@ -109,7 +109,7 @@ RCT_REMAP_METHOD(setAttributes, attributes:(NSDictionary *)attributes attributes
     }
     else {
       reject(@"set-attributes-error", @"Error occured while attempting to set attributes for the user.", result.error);
-    }  
+    }
   }];
 }
 
